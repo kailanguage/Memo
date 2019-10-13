@@ -28,7 +28,7 @@ ROOM、ViewModel 、 LiveData、...
 
 
 
-**BUG: **
+**BUG：**
 
 这是一个未完成版本！！！无数BUG！！！！
 
