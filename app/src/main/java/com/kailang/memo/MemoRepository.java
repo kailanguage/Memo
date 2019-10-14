@@ -35,7 +35,6 @@ class MemoRepository {
     static class InsertAsyncTask extends AsyncTask<Memo,Void,Void> {
         private MemoDao memoDao;
         public InsertAsyncTask(MemoDao memoDao) {
-            Log.e("xxxxx","repositoryASyncTask");
             this.memoDao=memoDao;
         }
 

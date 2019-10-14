@@ -10,6 +10,8 @@ import java.util.Date;
 public class Memo {
     @PrimaryKey(autoGenerate = true)
     private int id;
+    @ColumnInfo(name = "type")
+    private String type;
     @ColumnInfo(name = "headline")
     private String headline;
     @ColumnInfo(name = "content")
@@ -17,10 +19,19 @@ public class Memo {
     @ColumnInfo(name = "create_date")
     private String create_date;
 
-    public Memo(String headline, String content, String create_date) {
+    public Memo(String type, String headline, String content, String create_date) {
+        this.type = type;
         this.headline = headline;
         this.content = content;
         this.create_date = create_date;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getId() {

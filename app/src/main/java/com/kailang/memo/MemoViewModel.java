@@ -19,7 +19,6 @@ public class MemoViewModel extends AndroidViewModel {
         return memoRepository.getAllMemosLive();
     }
     void insertMemo(Memo... memos){
-        Log.e("xxxxxx","ViewModelinsert");
         memoRepository.insertMemo(memos);
     }
 

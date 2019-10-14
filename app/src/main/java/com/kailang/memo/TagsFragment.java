@@ -9,12 +9,9 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,6 +32,7 @@ public class TagsFragment extends Fragment {
     private TagsAdapter tagsAdapter;
     private final String TAGS="TAGS";
     private List<String> tagsList;
+    private SharedPreferences shp;
 
     public TagsFragment() {
         // Required empty public constructor
@@ -50,16 +48,21 @@ public class TagsFragment extends Fragment {
                     .setNegativeButton(R.string.cancel, null);
             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    SharedPreferences shp = requireActivity().getSharedPreferences(TAGS, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = shp.edit();
                     String tmp;
                     tmp =input.getText().toString().trim();
-                    if(!tagsList.contains(tmp)&&!tmp.isEmpty()){
+                    if(!tmp.isEmpty()&&!tagsList.contains(tmp)){
                         tagsList.add(tmp);
-                        editor.putString(tagsList.size()+"",tmp);
-                        editor.commit();
-                        tagsAdapter.setTagList(tagsList);
-                        tagsAdapter.notifyDataSetChanged();
+                        SharedPreferences.Editor editor = shp.edit();
+                        int tt=tagsAdapter.getItemCount();
+                        if(tt!=tagsList.size()) {
+                            editor.putString(tagsList.size()+"",tmp);
+                            editor.commit();
+                            List<String> tempList = new ArrayList<>();
+                            tempList.add(tmp);
+                            tagsAdapter.setTagList(tempList);
+                            tagsAdapter.notifyDataSetChanged();
+
+                        }
                     }
                 }
             });
@@ -90,7 +93,7 @@ public class TagsFragment extends Fragment {
         tagsAdapter=new TagsAdapter();
         recyclerView.setAdapter(tagsAdapter);
         tagsList=new ArrayList<>();
-        SharedPreferences shp = requireActivity().getSharedPreferences(TAGS, Context.MODE_PRIVATE);
+        shp = requireActivity().getSharedPreferences(TAGS, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = shp.edit();
         if(shp.getAll().isEmpty()){
             editor.putString("0","学习");
@@ -102,15 +105,15 @@ public class TagsFragment extends Fragment {
         }
         String tmp;
         int t=1;
-        tmp=shp.getString(t+"","nothing");
-        while (!tmp.equals("nothing")){
+        tmp=shp.getString(t+"","XxXxxXx");
+        while (!tmp.equals("XxXxxXx")&&!tagsList.contains(tmp)){
             tagsList.add(tmp);t++;
-            tmp=shp.getString(t+"","nothing");
+            tmp=shp.getString(t+"","XxXxxXx");
         }
-        tagsAdapter.setTagList(tagsList);
         int tt=tagsAdapter.getItemCount();
-        if(tagsList.size()!=tt)
+        if(tt!=tagsList.size()) {
+            tagsAdapter.setTagList(tagsList);
             tagsAdapter.notifyDataSetChanged();
-
+        }
     }
 }
