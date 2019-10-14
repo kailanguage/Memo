@@ -6,7 +6,7 @@
 
 **演示**
 
-<img src="/image/one.png" width="150" height="300"><img src="/image/two.png" width="150" height="300"><img src="/image/three.png" width="150" height="300">
+<img src="/img/one.png" width="150" height="300"><img src="/img/two.png" width="150" height="300"><img src="/img/three.png" width="150" height="300">
 
 **功能方面：**
 
@@ -22,13 +22,13 @@
 
 *MVVM*
 
-<img src="/image/four.png" width="400" height="200">
+<img src="/img/four.png" width="400" height="200">
 
 ROOM、ViewModel 、 LiveData、...
 
 
 
-**BUG: **
+**BUG：**
 
 这是一个未完成版本！！！无数BUG！！！！
 
