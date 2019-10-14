@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-class MemoViewModel extends AndroidViewModel {
+public class MemoViewModel extends AndroidViewModel {
     private MemoRepository memoRepository;
     public MemoViewModel(@NonNull Application application) {
         super(application);
