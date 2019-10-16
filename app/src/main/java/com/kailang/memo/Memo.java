@@ -19,11 +19,11 @@ public class Memo {
     @ColumnInfo(name = "create_date")
     private String create_date;
 
-    public Memo(String type, String headline, String content, String create_date) {
-        this.type = type;
+    public Memo(String headline, String content, String create_date,String type) {
         this.headline = headline;
         this.content = content;
         this.create_date = create_date;
+        this.type = type;
     }
 
     public String getType() {

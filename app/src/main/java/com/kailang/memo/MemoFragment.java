@@ -3,6 +3,7 @@ package com.kailang.memo;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
@@ -10,6 +11,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +24,7 @@ import android.view.ViewGroup;
 
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -35,6 +38,7 @@ public class MemoFragment extends Fragment {
     private MemoAdapter myAdapter;
     private FloatingActionButton floatingActionButton;
     private LiveData<List<Memo>> memos;
+    private List<Memo> allMemos;
 
     public MemoFragment() {
         // Required empty public constructor
@@ -72,22 +76,42 @@ public class MemoFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //memoViewModel = ViewModelProviders.of(requireActivity()).get(MemoViewModel.class);
         memoViewModel=ViewModelProviders.of(getActivity()).get(MemoViewModel.class);
         recyclerView = requireActivity().findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         myAdapter = new MemoAdapter(memoViewModel);
         recyclerView.setAdapter(myAdapter);
         memos=memoViewModel.getAllMemosLive();
-        memos.observe(requireActivity(), new Observer<List<Memo>>() {
+        memos.observe(getViewLifecycleOwner(), new Observer<List<Memo>>() {
             @Override
             public void onChanged(List<Memo> memos) {
+                allMemos=memos;
                 int tmp = myAdapter.getItemCount();
                 myAdapter.setAllMemo(memos);
                 if(tmp!=memos.size())
                     myAdapter.notifyDataSetChanged();
             }
         });
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                final Memo memoToDelete=allMemos.get(viewHolder.getAdapterPosition());
+                memoViewModel.deleteMemo(memoToDelete);
+                Snackbar.make(requireActivity().findViewById(R.id.fragment_memo),"已删除一个备忘录",Snackbar.LENGTH_SHORT).setAction("撤销", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        memoViewModel.insertMemo(memoToDelete);
+                    }
+                }).show();
+            }
+        }).attachToRecyclerView(recyclerView);
+
         floatingActionButton = requireActivity().findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

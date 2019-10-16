@@ -66,7 +66,6 @@ public class AddFragment extends Fragment {
                 navController.navigateUp();
                 InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(requireActivity().getCurrentFocus().getWindowToken(), 0);
-
             }else{
                 if(headline.isEmpty()){
                     Toast.makeText(requireActivity(),"标题不能为空",Toast.LENGTH_SHORT).show();
@@ -93,7 +92,9 @@ public class AddFragment extends Fragment {
         et_headline=requireActivity().findViewById(R.id.tv_headline_add);
         et_content=requireActivity().findViewById(R.id.tv_content_add);
         tv_tag_add_new=requireActivity().findViewById(R.id.tv_tag_add_new);
-
+        InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        et_headline.requestFocus();
+        imm.showSoftInput(et_headline,0);
         tv_tag_add_new.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
