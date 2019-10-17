@@ -9,9 +9,13 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +38,8 @@ public class TagsFragment extends Fragment {
     private final String TAGS="TAGS";
     private List<String> tagsList;
     private SharedPreferences shp;
-
+    private TagSelectedViewModel tagSelectedViewModel;
+    private LiveData<String> tagLive;
     public TagsFragment() {
         // Required empty public constructor
         setHasOptionsMenu(true);
@@ -88,10 +94,29 @@ public class TagsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        tagSelectedViewModel = ViewModelProviders.of(getActivity()).get(TagSelectedViewModel.class);
         recyclerView=requireActivity().findViewById(R.id.recyclerView_tags);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         tagsAdapter=new TagsAdapter();
+        tagSelectedViewModel=ViewModelProviders.of(requireActivity()).get(TagSelectedViewModel.class);
+
+        tagLive=tagSelectedViewModel.getSelected();
+        tagLive.observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Log.e("xxxx",s);
+            }
+        });
         recyclerView.setAdapter(tagsAdapter);
+
+        tagsAdapter.setOnItemClickListener(new TagsAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                Log.e("xxxxx",position+"");
+                if(position>-1)
+                tagSelectedViewModel.select(tagsList.get(position));
+            }
+        });
         tagsList=new ArrayList<>();
         shp = requireActivity().getSharedPreferences(TAGS, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = shp.edit();
@@ -115,5 +140,6 @@ public class TagsFragment extends Fragment {
             tagsAdapter.setTagList(tagsList);
             tagsAdapter.notifyDataSetChanged();
         }
+
     }
 }

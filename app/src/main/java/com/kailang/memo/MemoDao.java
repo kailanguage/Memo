@@ -22,4 +22,8 @@ public interface MemoDao {
 
     @Query("SELECT * FROM MEMO ORDER BY ID DESC")
     LiveData<List<Memo>>getAllMemosLive();
+
+    //搜索数据库，范围包括标题和内容
+    @Query("SELECT * FROM MEMO WHERE content LIKE :pattern or headline LIKE :pattern ORDER BY ID DESC")
+    LiveData<List<Memo>>findWordsWithPattern(String pattern);
 }

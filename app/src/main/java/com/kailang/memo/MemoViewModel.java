@@ -18,6 +18,9 @@ public class MemoViewModel extends AndroidViewModel {
     LiveData<List<Memo>>getAllMemosLive(){
         return memoRepository.getAllMemosLive();
     }
+    LiveData<List<Memo>> findMemoWithPattern(String pattern){
+        return memoRepository.findMemoWithPattern(pattern);
+    }
     void insertMemo(Memo... memos){
         memoRepository.insertMemo(memos);
     }

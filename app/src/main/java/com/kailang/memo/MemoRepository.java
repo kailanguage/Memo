@@ -31,6 +31,9 @@ class MemoRepository {
     LiveData<List<Memo>> getAllMemosLive(){
         return allMemosLive;
     }
+    LiveData<List<Memo>>findMemoWithPattern(String pattern){
+        return memoDao.findWordsWithPattern("%" + pattern + "%");
+    }
 
     static class InsertAsyncTask extends AsyncTask<Memo,Void,Void> {
         private MemoDao memoDao;

@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -21,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -54,6 +56,8 @@ public class MemoFragment extends Fragment {
                 NavController navController = Navigation.findNavController(requireActivity().getCurrentFocus());
                 navController.navigate(R.id.action_memoFragment_to_tagsFragment);
                 break;
+            case R.id.app_bar_search:
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -62,6 +66,33 @@ public class MemoFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_main, menu);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
+        //searchView.setMaxWidth(1000);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                final String pattern = newText.trim();
+                memos.removeObservers(getViewLifecycleOwner());
+                memos=memoViewModel.findMemoWithPattern(pattern);
+                memos.observe(getViewLifecycleOwner(), new Observer<List<Memo>>() {
+                    @Override
+                    public void onChanged(List<Memo> memos) {
+                        int temp = myAdapter.getItemCount();
+                        myAdapter.setAllMemo(memos);
+                        if(temp!=memos.size()){
+                            myAdapter.notifyDataSetChanged();
+                        }
+                    }
+                });
+                return true;
+            }
+        });
     }
 
 
