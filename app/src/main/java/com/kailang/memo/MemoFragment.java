@@ -108,7 +108,7 @@ public class MemoFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         memoViewModel=ViewModelProviders.of(getActivity()).get(MemoViewModel.class);
-        recyclerView = requireActivity().findViewById(R.id.recyclerView);
+        recyclerView = requireActivity().findViewById(R.id.recyclerView_memo);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         myAdapter = new MemoAdapter(memoViewModel);
         recyclerView.setAdapter(myAdapter);

@@ -13,7 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 
 
 public class MainActivity extends AppCompatActivity {
-    private NavController navController=null;
+    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

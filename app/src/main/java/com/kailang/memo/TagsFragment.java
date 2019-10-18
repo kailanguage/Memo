@@ -10,11 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +37,7 @@ public class TagsFragment extends Fragment {
     private SharedPreferences shp;
     private TagSelectedViewModel tagSelectedViewModel;
     private LiveData<String> tagLive;
+    private String tagSelectedOld="";
     public TagsFragment() {
         // Required empty public constructor
         setHasOptionsMenu(true);
@@ -98,25 +96,35 @@ public class TagsFragment extends Fragment {
         recyclerView=requireActivity().findViewById(R.id.recyclerView_tags);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         tagsAdapter=new TagsAdapter();
-        tagSelectedViewModel=ViewModelProviders.of(requireActivity()).get(TagSelectedViewModel.class);
 
-        tagLive=tagSelectedViewModel.getSelected();
-        tagLive.observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                Log.e("xxxx",s);
-            }
-        });
         recyclerView.setAdapter(tagsAdapter);
 
+        tagSelectedViewModel=ViewModelProviders.of(requireActivity()).get(TagSelectedViewModel.class);
         tagsAdapter.setOnItemClickListener(new TagsAdapter.ClickListener() {
             @Override
             public void onItemClick(int position, View v) {
                 Log.e("xxxxx",position+"");
-                if(position>-1)
-                tagSelectedViewModel.select(tagsList.get(position));
+                if(position>-1) {
+//                    if(!tagsList.get(position).isEmpty()){
+//                        tagSelectedOld=tagsList.get(position);
+//                    }
+                    Log.e("xxxxx",tagsList.get(position));
+                    tagSelectedViewModel.select(tagsList.get(position));
+                }
             }
         });
+
+//        tagLive=tagSelectedViewModel.getSelected();
+//        tagLive.observe(getViewLifecycleOwner(), new Observer<String>() {
+//            @Override
+//            public void onChanged(String s) {
+//                Log.e("xxxx",s);
+//                if(!tagSelectedOld.isEmpty()&&tagSelectedOld.equals(s)) {
+//                    NavController navController = Navigation.findNavController(requireActivity().getCurrentFocus());
+//                    navController.navigate(R.id.action_tagsFragment_to_addFragment);
+//                }
+//            }
+//        });
         tagsList=new ArrayList<>();
         shp = requireActivity().getSharedPreferences(TAGS, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = shp.edit();
