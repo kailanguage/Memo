@@ -56,13 +56,11 @@ public class MemoFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.app_bar_about:
+                Navigation.findNavController(requireActivity().getCurrentFocus()).navigate(R.id.action_memoFragment_to_aboutFragment);
                 break;
             case R.id.app_bar_tags:
-                NavController navController = Navigation.findNavController(requireActivity().getCurrentFocus());
-                navController.navigate(R.id.action_memoFragment_to_tagsFragment);
+                Navigation.findNavController(requireActivity().getCurrentFocus()).navigate(R.id.action_memoFragment_to_tagsFragment);
                 break;
-            case R.id.app_bar_search:
-
         }
         return super.onOptionsItemSelected(item);
     }
