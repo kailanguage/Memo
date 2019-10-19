@@ -10,15 +10,16 @@
 
 **功能方面：**
 
-UI使用RecyclerView、CardView
+- UI使用RecyclerView、CardView
 
-备忘录存于SQLite，标签存于SharedPreferences
+- 备忘录存于SQLite，标签存于SharedPreferences
 
-增删改查备忘录
+- 增删改查备忘录
 
-左右滑动删除，snackbar提示，可撤销删除
+- 左右滑动删除，snackbar提示，可撤销删除
 
-单击进入编辑
+- 单击进入编辑
+
 
 
 
@@ -29,6 +30,32 @@ UI使用RecyclerView、CardView
 <img src="/img/four.png" width="400" height="250">
 
 
+
+**目录结构**
+
+└─com
+    └─kailang
+        └─memo
+            ├─adapter
+            │      MemoAdapter.java
+            │      TagsAdapter.java
+            │
+            ├─data
+            │      Memo.java
+            │      MemoDao.java
+            │      MemoDatabase.java
+            │      MemoRepository.java
+            │
+            ├─fragment
+            │      AboutFragment.java
+            │      AddFragment.java
+            │      EditFragment.java
+            │      MemoFragment.java
+            │      TagsFragment.java
+            │
+            └─viewmodel
+                    MemoViewModel.java
+                    TagSelectedViewModel.java
 
 **BUG：**
 
