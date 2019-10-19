@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddFragment">
+    tools:context=".fragment.AddFragment">
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -45,7 +45,7 @@
         app:layout_constraintGuide_percent="0.02" />
 
     <TextView
-        android:id="@+id/tv_tag_add_new"
+        android:id="@+id/tv_tag_select_new"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_tag"
