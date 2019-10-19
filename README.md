@@ -33,6 +33,7 @@
 
 **目录结构**
 
+```
 └─com
     └─kailang
         └─memo
@@ -56,6 +57,7 @@
             └─viewmodel
                     MemoViewModel.java
                     TagSelectedViewModel.java
+```
 
 **BUG：**
 
