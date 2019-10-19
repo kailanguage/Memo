@@ -1,5 +1,6 @@
 package com.kailang.memo.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import java.util.List;
 public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.MyViewHolder> {
     private List<Memo> allMemo = new ArrayList<>();
     private MemoViewModel memoViewModel;
-    private static ClickListener clickListener;
+    private static MemoClickListener clickListener;
 
     public MemoAdapter(MemoViewModel memoViewModel) {
         this.memoViewModel = memoViewModel;
@@ -36,12 +37,12 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.MyViewHolder> 
 
         final MyViewHolder holder = new MyViewHolder(itemView);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //跳转到编辑memo
-            }
-        });
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //跳转到编辑memo
+//            }
+//        });
         return holder;
     }
 
@@ -67,6 +68,7 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.MyViewHolder> 
             tv_headline = itemView.findViewById(R.id.tv_headline);
             tv_content = itemView.findViewById(R.id.tv_content);
             tv_date = itemView.findViewById(R.id.tv_date);
+            itemView.setOnClickListener(this);
         }
 
         @Override
@@ -75,12 +77,12 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.MyViewHolder> 
         }
     }
 
-    public void setOnItemClickListener(ClickListener clickListener){
+    public void setOnItemClickListener(MemoClickListener clickListener){
         this.clickListener=clickListener;
     }
 
     //点击事件接口
-    public interface ClickListener {
+    public interface MemoClickListener {
         void onItemClick(int position, View v);
         //void onItemLongClick(int position, View v);
     }

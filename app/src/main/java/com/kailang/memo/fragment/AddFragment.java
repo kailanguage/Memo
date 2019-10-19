@@ -56,8 +56,7 @@ public class AddFragment extends Fragment {
                 Date date = new Date();
                 Memo memo = new Memo(headline, content, date.toString(), type);
                 memoViewModel.insertMemo(memo);
-                NavController navController = Navigation.findNavController(requireActivity().getCurrentFocus());
-                navController.navigate(R.id.action_addFragment_to_memoFragment);
+                Navigation.findNavController(requireActivity().getCurrentFocus()).navigate(R.id.action_addFragment_to_memoFragment);
                 InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(requireActivity().getCurrentFocus().getWindowToken(), 0);
             } else {
@@ -86,21 +85,23 @@ public class AddFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        //初始化ViewModel
         memoViewModel = ViewModelProviders.of(requireActivity()).get(MemoViewModel.class);
         tagSelectedViewModel = ViewModelProviders.of(requireActivity()).get(TagSelectedViewModel.class);
-
+        //绑定控件
         et_headline = requireActivity().findViewById(R.id.tv_headline_add);
         et_content = requireActivity().findViewById(R.id.tv_content_add);
         tv_tag_select_new = requireActivity().findViewById(R.id.tv_tag_select_new);
-
+        //获取焦点，弹出键盘
         InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         et_headline.requestFocus();
         imm.showSoftInput(et_headline, 0);
 
+        //感知标签变化
         tagSelectedViewModel.getSelected().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                Toast.makeText(requireContext(),"已选择 "+s, Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(),s, Toast.LENGTH_SHORT).show();
                 tv_tag_select_new.setText(s);
             }
         });

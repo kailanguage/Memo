@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_memoFragment_to_tagsFragment"
             app:destination="@id/tagsFragment" />
+        <action
+            android:id="@+id/action_memoFragment_to_editFragment"
+            app:destination="@id/editFragment" />
     </fragment>
     <fragment
         android:id="@+id/addFragment"
@@ -39,6 +42,15 @@
             app:destination="@id/addFragment" />
         <action
             android:id="@+id/action_tagsFragment_to_memoFragment"
+            app:destination="@id/memoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editFragment"
+        android:name="com.kailang.memo.fragment.EditFragment"
+        android:label="编辑"
+        tools:layout="@layout/fragment_edit" >
+        <action
+            android:id="@+id/action_editFragment_to_memoFragment"
             app:destination="@id/memoFragment" />
     </fragment>
 </navigation>

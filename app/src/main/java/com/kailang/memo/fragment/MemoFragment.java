@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -119,6 +120,16 @@ public class MemoFragment extends Fragment {
         myAdapter = new MemoAdapter(memoViewModel);
         recyclerView.setAdapter(myAdapter);
 
+        //Item单击编辑
+        myAdapter.setOnItemClickListener(new MemoAdapter.MemoClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("memo",position);
+                Navigation.findNavController(v).navigate(R.id.action_memoFragment_to_editFragment,bundle);
+            }
+        });
+
         //感知数据库更新，并更新UI
         memos=memoViewModel.getAllMemosLive();
         memos.observe(getViewLifecycleOwner(), new Observer<List<Memo>>() {
@@ -153,13 +164,6 @@ public class MemoFragment extends Fragment {
             }
         }).attachToRecyclerView(recyclerView);
 
-        //Item单击事件
-        myAdapter.setOnItemClickListener(new MemoAdapter.ClickListener() {
-            @Override
-            public void onItemClick(int position, View v) {
-
-            }
-        });
 
 
         floatingActionButton = requireActivity().findViewById(R.id.fab);

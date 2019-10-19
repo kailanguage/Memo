@@ -15,15 +15,12 @@ import java.util.List;
 
 public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagsViewHolder> {
     private List<String> tagList = new ArrayList<>();
-    private static ClickListener clickListener;
+    private static TagClickListener clickListener;
 
     public void setTagList(List<String> list){
         for (String s:list) {
             tagList.add(s);
         }
-    }
-     String getSelectedTag(){
-        return tagList.get(tagList.size()-1);
     }
 
     @NonNull
@@ -67,12 +64,12 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagsViewHolder
             clickListener.onItemClick(getAdapterPosition(),v);
         }
     }
-    public void setOnItemClickListener(ClickListener clickListener){
+    public void setOnItemClickListener(TagClickListener clickListener){
         this.clickListener=clickListener;
     }
 
     //点击事件接口
-    public interface ClickListener {
+    public interface TagClickListener {
         void onItemClick(int position, View v);
         //void onItemLongClick(int position, View v);
     }

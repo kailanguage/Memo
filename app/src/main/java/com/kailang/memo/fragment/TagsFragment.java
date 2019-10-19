@@ -91,6 +91,7 @@ public class TagsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        //隐藏键盘
         InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(requireActivity().findViewById(R.id.fragment).getWindowToken(),0);
         return inflater.inflate(R.layout.fragment_tags, container, false);
@@ -108,7 +109,7 @@ public class TagsFragment extends Fragment {
 
         //标签监听点击事件
         tagSelectedViewModel=ViewModelProviders.of(requireActivity()).get(TagSelectedViewModel.class);
-        tagsAdapter.setOnItemClickListener(new TagsAdapter.ClickListener() {
+        tagsAdapter.setOnItemClickListener(new TagsAdapter.TagClickListener() {
             @Override
             public void onItemClick(int position, View v) {
                 Log.e("xxxxx",position+"");
